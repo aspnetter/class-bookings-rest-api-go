@@ -16,9 +16,6 @@ func main() {
 	adder := adding.NewService(repo)
 	lister := listing.NewService(repo)
 
-	adder.AddSampleClasses()
-	adder.AddSampleBookings()
-
 	router := myhttp.Handler(adder, lister)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
