@@ -1,12 +1,8 @@
 package adding
 
-import (
-	"time"
-)
-
 type Class struct {
-	Name      string    `json:"name"`
-	StartDate time.Time `json:"start_date"`
-	EndDate   time.Time `json:"end_date"`
-	Capacity  int       `json:"capacity"`
+	Name      string `json:"name"`
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+	Capacity  int    `json:"capacity"`
 }

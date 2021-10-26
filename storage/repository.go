@@ -1,8 +1,10 @@
 package storage
 
 import (
+	"math/rand"
 	"time"
 
+	"cloud.google.com/go/civil"
 	"github.com/aspnetter/go-glofox-api/adding"
 	"github.com/aspnetter/go-glofox-api/listing"
 )
@@ -42,5 +44,33 @@ func (r *Repository) GetAllBookings() []listing.Booking {
 }
 
 func (r *Repository) AddClass(c adding.Class) error {
+
+	startDate, err := civil.ParseDate(c.StartDate)
+
+	if err != nil {
+		return err
+	}
+
+	endDate, err := civil.ParseDate(c.EndDate)
+
+	if err != nil {
+		return err
+	}
+
+	r.classes = append(r.classes, Class{
+		ID:        GetID(),
+		Name:      c.Name,
+		StartDate: startDate.In(time.UTC),
+		EndDate:   endDate.In(time.UTC),
+		Capacity:  c.Capacity,
+	})
+
 	return nil
+}
+
+func GetID() int {
+	rand.Seed(time.Now().UnixNano())
+	min := 1
+	max := 10000
+	return (rand.Intn(max-min) + min)
 }

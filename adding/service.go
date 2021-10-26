@@ -10,8 +10,6 @@ var ErrDuplicate = errors.New("Class for this date already exists")
 
 type Service interface {
 	AddClass(...Class) error
-	AddSampleClasses()
-	AddSampleBookings()
 }
 
 type Repository interface {
@@ -43,25 +41,4 @@ func (s *service) AddClass(c ...Class) error {
 	}
 
 	return nil
-}
-
-func (s *service) AddSampleClasses() {
-	var defaultClasses = []Class{
-		{
-			Name:     "Yoga",
-			Capacity: 20,
-		},
-		{
-			Name:     "Pilates",
-			Capacity: 10,
-		},
-	}
-
-	for _, cc := range defaultClasses {
-		_ = s.repository.AddClass(cc)
-	}
-}
-
-func (s *service) AddSampleBookings() {
-
 }

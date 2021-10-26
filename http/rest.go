@@ -19,7 +19,7 @@ func Handler(a adding.Service, l listing.Service) http.Handler {
 	router.HandleFunc("/classes", getClasses(l)).Methods("GET")
 	router.HandleFunc("/bookings", getBookings(l)).Methods("GET")
 
-	//router.Handle("/classes", addClass(a)).Methods("POST")
+	router.HandleFunc("/classes", addClass(a)).Methods("POST")
 	//router.Handle("/bookings", addBBooking(a)).Methods("POST")
 
 	return router
@@ -46,5 +46,23 @@ func getBookings(s listing.Service) func(w http.ResponseWriter, r *http.Request)
 		w.Header().Set("Content-Type", "application/json")
 		list := s.GetBookings()
 		json.NewEncoder(w).Encode(list)
+	}
+}
+
+func addClass(s adding.Service) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		decoder := json.NewDecoder(r.Body)
+
+		var newClass adding.Class
+		err := decoder.Decode(&newClass)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		s.AddClass(newClass)
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode("New class added.")
 	}
 }
