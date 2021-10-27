@@ -4,19 +4,18 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/aspnetter/go-glofox-api/adding"
-	myhttp "github.com/aspnetter/go-glofox-api/http"
-	"github.com/aspnetter/go-glofox-api/listing"
-	"github.com/aspnetter/go-glofox-api/storage"
+	"github.com/aspnetter/go-glofox-api/classes/http_handling"
+	"github.com/gorilla/mux"
 )
 
 func main() {
+	router := mux.NewRouter().StrictSlash(true)
 
-	repo := new(storage.Repository)
-	adder := adding.NewService(repo)
-	lister := listing.NewService(repo)
+	http_handling.AddClassesHandlers(*router)
 
-	router := myhttp.Handler(adder, lister)
+	/*
+		add classes and bookings handlers
+	*/
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

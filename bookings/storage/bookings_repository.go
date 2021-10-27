@@ -1,17 +1,19 @@
 package storage
 
 import (
-	"math/rand"
 	"time"
 
 	"cloud.google.com/go/civil"
-	"github.com/aspnetter/go-glofox-api/adding"
-	"github.com/aspnetter/go-glofox-api/listing"
 )
 
 type Repository struct {
 	classes []Class
 	//bookings []Booking
+}
+
+func (r *Repository) GetAllBookings() []listing.Booking {
+	var result []listing.Booking
+	return result
 }
 
 func (r *Repository) GetAllClasses() []listing.Class {
@@ -66,11 +68,4 @@ func (r *Repository) AddClass(c adding.Class) error {
 	})
 
 	return nil
-}
-
-func GetID() int {
-	rand.Seed(time.Now().UnixNano())
-	min := 1
-	max := 10000
-	return (rand.Intn(max-min) + min)
 }
